@@ -1,0 +1,22 @@
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.exe
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.deps.json
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.runtimeconfig.json
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.runtimeconfig.dev.json
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.dll
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.pdb
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.csprojAssemblyReference.cache
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.AssemblyInfoInputs.cache
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.AssemblyInfo.cs
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.dll
+Q:\Cours\UQAC\M1 - Informatique recherche\Intelligence artificielle\TP1\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.pdb
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.csprojAssemblyReference.cache
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.AssemblyInfoInputs.cache
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.AssemblyInfo.cs
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.dll
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.pdb
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.exe
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.deps.json
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.runtimeconfig.json
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.runtimeconfig.dev.json
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.dll
+D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.pdb
