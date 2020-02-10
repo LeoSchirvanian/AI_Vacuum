@@ -59,7 +59,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public Queue<string> search(int[,] initstate, int[,] desiredstate)
         {
-            // Create a root node with a initial state
+            // Create a root node with initial state
             Modelisation.Node rootn = new Modelisation.Node(
                     initstate,      // initial state
                     new[] { 0, 0 }, // vacXY
@@ -68,6 +68,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     false,          // visited
                     "root"          // lastaction
                 );
+            // Create a goal node with desire state
             Modelisation.Node goaln = new Modelisation.Node(
                     desiredstate,   // desired state
                     new[] { 0, 0 }, // vacXY
@@ -77,7 +78,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     "goal"          // lastaction
                 );
 
-            // Clear
+            // Clear all tree
             tree_fs.Clear();
             tree_fg.Clear();
             frontiere_fs.Clear();
@@ -85,90 +86,58 @@ namespace IA_TP1_Aspirateur_intelligent
             visited_fs.Clear();
             visited_fg.Clear();
 
-            // Add root and goal node
+            // Add root and goal node respectively in tree_fs and tree_fg
             tree_fs.Add(rootn);
             tree_fg.Add(goaln);
 
+            // Represent index of exploration : here it's Breadth first search
             int borderindex = 0;
 
             while (true)
             {
-                //Console.WriteLine("Tour " + caca++);
-                //Console.WriteLine("Compte : " + frontiere_fs.Count);
+                // Get goal retrosuccesors and root successors 
                 Dictionary<string, Modelisation.Node> s_successors = problem.succession(tree_fs[borderindex]);
-                
                 Dictionary<string, Modelisation.Node> g_successors = problem.retrosuccession(tree_fg[borderindex]);
 
-                //visited_fs.Add(frontiere_fs[0]);
-                //visited_fg.Add(frontiere_fg[0]);
-
-                //frontiere_fs.RemoveAt(0);
-                //frontiere_fg.RemoveAt(0);
-
-
-
+                // Loop root successors
                 foreach (KeyValuePair<string,Modelisation.Node> entry in s_successors)
                 {
-                    //if (isPresent(entry.Value, visited_fs) != null)
-                    /*
-                    if ( isPresent(entry.Value, tree_fs.GetRange(0, borderindex)) != null )
-                    {
-                        Console.WriteLine("Entry is present");
-                        break;
-                    }*/
-
-                    //if (isPresent(entry.Value, visited_fg) != null)
+                    // GetRange(index,count) : copy the list from index to index+count
+                    // Check if one node of tree_fg is equal to entry.value (with method isArrayEqual)
                     if ( isPresent(entry.Value, tree_fg.GetRange(0, borderindex)) != null )
                     {
-                        Console.WriteLine("Trouve un truc en A ");
-                        //Modelisation.Node[] x = isPresent(entry.Value, visited_fg);
-                        Modelisation.Node[] x = isPresent(entry.Value, tree_fg.GetRange(0, borderindex));
-                        return generateTasklist(x[0], x[1]);
+                        Console.WriteLine("Trouve un truc en A ");                                        // If true, print it
+                        Modelisation.Node[] x = isPresent(entry.Value, tree_fg.GetRange(0, borderindex)); // isPresent return an array of equal nodes
+                        return generateTasklist(x[0], x[1]);                                              // Stop execution and return equal node to get the full path with generateTaskList method
                     }
-                    //frontiere_fs.Add(entry.Value);
-                    tree_fs.Add(entry.Value);
+                    tree_fs.Add(entry.Value); // If not true, add the node to tree_fs and continue
                     
                 }
 
-                //Console.ReadLine();
-
-                foreach(KeyValuePair<string, Modelisation.Node> entry in g_successors)
+                // Loop goal ancestors
+                foreach (KeyValuePair<string, Modelisation.Node> entry in g_successors)
                 {
-                    //if (isPresent(entry.Value, visited_fg) != null)
-                    /*
-                    if (isPresent(entry.Value, tree_fg.GetRange(0, borderindex)) != null)
-                    {
-                        break;
-                    } */
-                    //if (isPresent(entry.Value, visited_fs) != null)
+                    // GetRange(index,count) : copy the list from index to index+count
+                    // Check if one node of tree_fs is equal to entry.value (with method isArrayEqual)
                     if (isPresent(entry.Value, tree_fs.GetRange(0, borderindex)) != null)
                     {
-                        Console.WriteLine("Trouve un truc en B ");
-                        //Modelisation.Node[] x = isPresent(entry.Value, visited_fs);
-                        Modelisation.Node[] x = isPresent(entry.Value, tree_fs.GetRange(0, borderindex));
-                        return generateTasklist(x[1], x[0]);
+                        Console.WriteLine("Trouve un truc en B ");                                        // If true, print it
+                        Modelisation.Node[] x = isPresent(entry.Value, tree_fs.GetRange(0, borderindex)); // isPresent return an array of equal nodes
+                        return generateTasklist(x[1], x[0]);                                              // Stop execution and return equal node to get the full path with generateTaskList method
                     }
-                    //frontiere_fg.Add(entry.Value);
                     tree_fg.Add(entry.Value);
                 }
-
-                //frontiere_fs.RemoveAt(0);
-                //frontiere_fg.RemoveAt(0);
-
-                //Console.ReadLine();
-                borderindex++;
+                borderindex++; // Increment borderIndex
             }
 
         }
 
-        // Check if node is in visited node list
+        // Check if node is in visited node list, if true return an array of the same array, if not return null
         private Modelisation.Node[] isPresent(Modelisation.Node node, List<Modelisation.Node> visited)
         {
             foreach( Modelisation.Node n in visited)
             {
-                //Console.WriteLine("Checked for presence");
                 if ( isArrayEqual(node.getState(), n.getState()) )
-                //if (node == n)
                 {
                     return new[] { node, n };
                 }
@@ -183,7 +152,6 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 return false;
             }
-
             for (int i = 0; i < a.GetLength(0); i++)
             {
                 for (int j = 0; j < a.GetLength(1); j++)
@@ -194,9 +162,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     }
                 }
             }
-
             return true;
         }
-
     }
 }

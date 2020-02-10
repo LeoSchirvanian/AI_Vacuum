@@ -45,10 +45,8 @@ namespace IA_TP1_Aspirateur_intelligent
                     ) ;
 
                 newStates.Add(entry.Key, newnode);
-                testingFloor.reset(); : // Return to the initial state
+                testingFloor.reset(); // Return to the initial state
 
-                //testingFloor = new Floor(currentNode.getState());
-                //entry.Value.reverse(testingFloor, testingFloor.getAspXY());
             }
             return newStates;
         }
@@ -57,29 +55,7 @@ namespace IA_TP1_Aspirateur_intelligent
         public Dictionary<string, Modelisation.Node> retrosuccession(Modelisation.Node currentNode)
         {
             Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
-
             Floor testingFloor = new Floor(currentNode.getState());
-
-            /*
-            Console.WriteLine("Retrosuccession");
-            Console.WriteLine("* -  -  -  -  -  *");
-            string line;
-
-            for (int i = 0; i < testingFloor.getState().GetLength(0); i++)
-            {
-                line = "|";
-                for (int j = 0; j < testingFloor.getState().GetLength(1); j++)
-                {
-                    line += ' ' + testingFloor.getState()[i, j].ToString() + ' ';
-                }
-
-                line += '|';
-
-                Console.WriteLine(line);
-            }
-
-            Console.WriteLine("* -  -  -  -  -  *");
-            */
 
             foreach (KeyValuePair<string, Action> entry in actions)
             {
@@ -96,11 +72,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
                 newStates.Add(entry.Key, newnode);
                 testingFloor.reset();
-                //testingFloor = new Floor(currentNode.getState());
-                //entry.Value.enact(testingFloor, testingFloor.getAspXY());
             }
-
-
             return newStates;
         }
 
