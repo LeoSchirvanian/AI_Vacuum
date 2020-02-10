@@ -6,8 +6,11 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     class Actors
     {
+        // Attributs
         private Dictionary<string, Action> actions;
+        // Dictionnary 
 
+        // Constructor
         public Actors()
         {
             actions = new Dictionary<string, Action>();
@@ -20,6 +23,7 @@ namespace IA_TP1_Aspirateur_intelligent
             actions.Add("pickup", new Actions.Pickup());
         }
         
+        // Execute an action and print it
         public void execute(string action)
         {
             Console.WriteLine("Actors are doing : " + action);

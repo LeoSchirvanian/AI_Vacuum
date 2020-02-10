@@ -7,8 +7,10 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     public sealed class Manor
     {
+        // Constante
         private static int GRID_SIZE = 3;
 
+        // Attributs
         private static Manor instance;
         private Floor floor;
         private static Aspirateur aspirateur;
@@ -19,6 +21,8 @@ namespace IA_TP1_Aspirateur_intelligent
 
         private Random random = new Random();
 
+
+        // Constructeur
         private Manor()
         {
             floor = new Floor(GRID_SIZE);
@@ -28,6 +32,7 @@ namespace IA_TP1_Aspirateur_intelligent
             aspXY = floor.getAspXY();
         }
 
+        // Create a instance of manor object if null and return manor
         public static Manor getInstance()
         {
             if (instance == null)
@@ -37,6 +42,7 @@ namespace IA_TP1_Aspirateur_intelligent
             return instance;
         }
 
+        // Create a probability matrix with random number from 0 to 100
         private int[,] probmatrixGenerator()
         {
             int x = floor.getState().GetLength(0);
@@ -55,36 +61,43 @@ namespace IA_TP1_Aspirateur_intelligent
             return probmatrix;
         }
 
+        // Each 10s, randomly try or not to create dirt with the dirt method of schmutzfeabrik object
         private void schmutzfabrikThread()
         {
             while(true)
             {
                 schmutzfabrik.dirty(floor);
 
+                // Sleep 10s
                 Thread.Sleep(10000);
             }
         }
 
+        // Each 10s, randomly try or not to create jewel with the drop method of juwelfabrik object
         private void juwelfabrikThread()
         {
             while (true)
             {
                 juwelfabrik.drop(floor);
 
+                // Sleep 10s
                 Thread.Sleep(10000);
             }
         }
 
+        // Each second, the vaccum is awake 
         private void vaccumThread()
         {
             while(true)
             {
                 aspirateur.wake();
 
+                // Sleep 1s
                 Thread.Sleep(1000);
             }
         }
 
+        // Start the manor and create a schmutzfabrikThread, a juwelfabrikThread, a vaccumThread, start them and print floor every 2 seconds
         public void setAlive()
         {
             Thread schmutzThread = new Thread(new ThreadStart(schmutzfabrikThread));
@@ -106,6 +119,7 @@ namespace IA_TP1_Aspirateur_intelligent
             }
         }
 
+        // Print the floor
         private void printFloorState()
         {
             int[,] state = floor.getState();
@@ -130,57 +144,38 @@ namespace IA_TP1_Aspirateur_intelligent
             Console.WriteLine("* -  -  -  -  -  *");
         }
 
+        // Get floor state 
         public int[,] getFloorState()
         {
             return floor.getState();
         }
 
-
+        // Get floor object
         public Floor getFloor()
         {
             return floor;
         }
 
+        // Get vaccum position
         public int[] getAspXY()
         {
             return (int[])floor.getAspXY().Clone();
-            /*
-            if (((floor.getState()[aspXY[0],aspXY[1]] % 4) % 2) == 1)
-            {
-                return aspXY;
-            }
-
-            else
-            {
-                for (int i = 0; i < floor.getState().GetLength(0); i++)
-                {
-                    for (int j = 0; j < floor.getState().GetLength(1); j++)
-                    {
-                        if (((floor.getState()[i,j] % 4) % 2) == 1)
-                        {
-                            aspXY[0] = i;
-                            aspXY[1] = j;
-                            return aspXY;
-                        }
-                    }
-                }
-            }
-            */
-
             throw new Exception("Did not find the vaccum");
-
         }
 
+        // Get initial state
         public int[,] DEBUG_getDesire()
         {
             return floor.getInitialState();
         }
 
+        // Get grid size
         public int getGridSize()
         {
             return 3;
         }
 
+        // Compare array and return a boolean
         public bool isArrayEqual(int[,] a, int[,] b)
         {
             if ( (a.GetLength(0) != b.GetLength(0)) || (a.GetLength(1) != b.GetLength(1)))

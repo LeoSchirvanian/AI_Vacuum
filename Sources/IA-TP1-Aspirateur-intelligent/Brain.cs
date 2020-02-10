@@ -6,6 +6,7 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     class Brain
     {
+        // Attributs
         private Problem problem;
         private List<Modelisation.Node> tree_fs;
         private List<Modelisation.Node> tree_fg;
@@ -15,6 +16,7 @@ namespace IA_TP1_Aspirateur_intelligent
         private List<Modelisation.Node> visited_fg;
 
 
+        // Constructor
         public Brain()
         {
             problem = new Problem();

@@ -6,11 +6,12 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     class Problem
     {
+        // Attributs
         private int[,] desire;
-
         private int[,] state;
         private Dictionary<string, Action> actions;
         
+        // Constructor
         public Problem()
         {
             actions = new Dictionary<string, Action>();
@@ -22,6 +23,7 @@ namespace IA_TP1_Aspirateur_intelligent
             actions.Add("nothing", new Actions.Nothing());
             actions.Add("pickup", new Actions.Pickup());
         }
+
 
         public Dictionary<string, Modelisation.Node> succession(Modelisation.Node currentNode)
         {

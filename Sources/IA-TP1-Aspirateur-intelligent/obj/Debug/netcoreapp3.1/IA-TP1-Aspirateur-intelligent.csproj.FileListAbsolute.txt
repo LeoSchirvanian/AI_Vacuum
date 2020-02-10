@@ -20,3 +20,14 @@ D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intellige
 D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.runtimeconfig.dev.json
 D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.dll
 D:\Cours\TP-IA\IA-TP1-Aspirateur-intelligent\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.pdb
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.exe
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.deps.json
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.runtimeconfig.json
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.runtimeconfig.dev.json
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.dll
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\bin\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.pdb
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.csprojAssemblyReference.cache
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.AssemblyInfoInputs.cache
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.AssemblyInfo.cs
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.dll
+C:\Users\Leo\Documents\Cours Chicoutimi\Intelligence Artificielle\TP1\IA-TP1-Aspirateur-intelligent-master\Sources\IA-TP1-Aspirateur-intelligent\obj\Debug\netcoreapp3.1\IA-TP1-Aspirateur-intelligent.pdb

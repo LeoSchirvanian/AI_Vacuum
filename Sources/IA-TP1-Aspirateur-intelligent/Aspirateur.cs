@@ -6,6 +6,7 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     class Aspirateur
     {
+        // Attributs
         private Sensor sensor;
         private Actors actors;
         private Brain brain;
@@ -13,9 +14,9 @@ namespace IA_TP1_Aspirateur_intelligent
         private int[,] state;
         private int[,] desire;
 
+        // Constructor
         public Aspirateur()
         {
-            
             sensor = new Sensor();
             actors = new Actors();
             brain  = new Brain();
@@ -24,6 +25,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         }
 
+        // Awake the vaccum, which analyze the environment and add tasks to do in its tasklist to achieve desire in desire matrix
         public void wake()
         {
             state = sensor.getSurroundings();
@@ -42,6 +44,7 @@ namespace IA_TP1_Aspirateur_intelligent
             actors.execute(tasklist.Dequeue());
         }
 
+        // Create a desire matrix
         private int[,] calculateDesire()
         {
             int gridsize = 3;

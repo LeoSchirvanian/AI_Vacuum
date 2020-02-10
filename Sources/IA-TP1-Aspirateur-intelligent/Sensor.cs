@@ -7,11 +7,13 @@ namespace IA_TP1_Aspirateur_intelligent
     class Sensor
     {
         
+        // Constructor
         public Sensor()
         {
             
         }
 
+        // Get Floor state
         public int[,] getSurroundings()
         {
             return (int[,]) Manor.getInstance().getFloorState().Clone();
