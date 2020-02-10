@@ -13,6 +13,7 @@ namespace IA_TP1_Aspirateur_intelligent
         private Queue<string> tasklist;
         private int[,] state;
         private int[,] desire;
+        private List<int[,]> desireStates;
 
         // Constructor
         public Aspirateur()
@@ -22,6 +23,7 @@ namespace IA_TP1_Aspirateur_intelligent
             brain  = new Brain();
             tasklist = new Queue<string>();
             desire = calculateDesire();
+            desireStates = calculateDesireState();
 
         }
 
@@ -31,15 +33,15 @@ namespace IA_TP1_Aspirateur_intelligent
             // Get the state of the room
             state = sensor.getSurroundings();
             // Get the path : tasklist
-            tasklist = brain.search(state, desire);
-            
+            tasklist = brain.search(state, desire); // TODO: Change desire to desireStates
+
             /*
             foreach(string a in tasklist)
             {
                 Console.WriteLine(a);
             }
             */
-            
+
             // Execute tasklist
             actors.execute(tasklist.Dequeue());
             actors.execute(tasklist.Dequeue());
@@ -61,7 +63,42 @@ namespace IA_TP1_Aspirateur_intelligent
             }
             desire[0, 0] = 1;
             return desire;
-            
+        }
+
+        // Create 9 differents desire states : 9 positions of vaccum in a clean room
+        private List<int[,]> calculateDesireState()
+        {
+            List<int[,]> desireStates = new List<int[,]>();
+            int gridsize = 3;
+
+            int[,] desire = new int[gridsize, gridsize];
+
+            // Null matrix
+            for (int i = 0; i < gridsize; i++)
+            {
+                for (int j = 0; j < gridsize; j++)
+                {
+                    desire[i, j] = 0;
+                }
+
+            }
+
+            // Copy desire matrix
+            int[,] copyDesire = (int[,])desire.Clone();
+
+            // Add 1 at every different cell and add it to the list 
+            for (int i = 0; i < gridsize; i++)
+            {
+                for (int j = 0; j < gridsize; j++)
+                {
+                    desire[i, j] = 1;         // Add 1
+                    desireStates.Add(desire); // Add the new desire state in the list
+                    desire = copyDesire;      // Reset desire
+                }
+
+            }
+
+            return desireStates;
         }
 
     }
