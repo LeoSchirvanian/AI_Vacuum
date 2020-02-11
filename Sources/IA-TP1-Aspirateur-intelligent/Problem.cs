@@ -19,30 +19,31 @@ namespace IA_TP1_Aspirateur_intelligent
             actions.Add("moveleft", new Actions.MoveLeft());
             actions.Add("moveright", new Actions.MoveRight());
             actions.Add("moveup", new Actions.MoveUp());
-            actions.Add("clean", new Actions.Clean());
-            actions.Add("nothing", new Actions.Nothing());
-            actions.Add("pickup", new Actions.Pickup());
+            //actions.Add("clean", new Actions.Clean());
+            //actions.Add("nothing", new Actions.Nothing());
+            //actions.Add("pickup", new Actions.Pickup());
         }
 
         // Test every actions given a node and return only a node with the lowest heuristic
         public Modelisation.Node newSuccession(Modelisation.Node currentNode)
         {
-            Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
+            // Create
             Floor testingFloor = new Floor(currentNode.getState());
 
+            // Init
             int minH = 100;
             Floor succFloor = new Floor(currentNode.getState());   // For now, the successor is the root itself
             string lastAct = "";
-            //Modelisation.Node newState = new Modelisation.Node();
+
+            List<(int, int, int)> cooList = testingFloor.getJewelDirt();
 
             // We determine the lowest heuristic successor
             foreach (KeyValuePair<string, Action> entry in actions)
             {
                 entry.Value.enact(testingFloor, currentNode.getVacXY());
 
-                int h = testingFloor.heuristique(); //heuristic
+                int h = testingFloor.heuristique(cooList); //heuristic
                 
-
                 // If the heuristic is below the actual min
                 if (h < minH)
                 {
@@ -67,58 +68,6 @@ namespace IA_TP1_Aspirateur_intelligent
 
             return newState;
 
-        }
-
-        // Test every actions possible given a node and add new states obtained in the dictionnary newstates
-        public Dictionary<string, Modelisation.Node> succession(Modelisation.Node currentNode)
-        {
-
-            Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
-            Floor testingFloor = new Floor(currentNode.getState());
-
-            foreach (KeyValuePair<string, Action> entry in actions)
-            {
-                entry.Value.enact(testingFloor, currentNode.getVacXY());
-                Modelisation.Node newnode = new Modelisation.Node(
-                    testingFloor.getState(),
-                    testingFloor.getAspXY(),
-                    currentNode.getDepth() + 1,
-                    currentNode.getPathcost() + entry.Value.getCost(),
-                    false,
-                    entry.Key,
-                    currentNode
-                    ) ;
-
-                newStates.Add(entry.Key, newnode);
-                testingFloor.reset(); // Return to the initial state
-
-            }
-            return newStates;
-        }
-
-        // Test every reverse actions possible given a node and add new states obtained in the dictionnary newstates
-        public Dictionary<string, Modelisation.Node> retrosuccession(Modelisation.Node currentNode)
-        {
-            Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
-            Floor testingFloor = new Floor(currentNode.getState());
-
-            foreach (KeyValuePair<string, Action> entry in actions)
-            {
-                entry.Value.reverse(testingFloor, currentNode.getVacXY());
-                Modelisation.Node newnode = new Modelisation.Node(
-                    testingFloor.getState(),
-                    testingFloor.getAspXY(),
-                    currentNode.getDepth() + 1,
-                    currentNode.getPathcost() + entry.Value.getCost(),
-                    false,
-                    entry.Key,
-                    currentNode
-                    );
-
-                newStates.Add(entry.Key, newnode);
-                testingFloor.reset();
-            }
-            return newStates;
         }
 
         public int[,] getState()

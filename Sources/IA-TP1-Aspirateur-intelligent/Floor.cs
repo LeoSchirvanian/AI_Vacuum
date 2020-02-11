@@ -9,7 +9,7 @@ namespace IA_TP1_Aspirateur_intelligent
         // Attributs
         private int[,] state;
         private int[,] initialState;
-        private List<int[,]> desireStates;
+        //private List<int[,]> desireStates;
 
         // Constructor by size
         public Floor(int size)
@@ -65,16 +65,14 @@ namespace IA_TP1_Aspirateur_intelligent
                 }
             }
         
-
             throw new Exception("Did not find the vaccum");
-
         }
 
-        //Get dirt or jewel localisation and value
+        // Return a list of coordinates and value of dirt/jewel object on the floor
         public List<(int, int, int)> getJewelDirt()
         {
-            var cooList = new List<(int, int, int)>();
-            int gridsize = 3;
+            List<(int, int, int)> cooList = new List<(int, int, int)>();
+            int gridsize = 5;
 
             for (int i = 0; i < gridsize; i++)
             {
@@ -87,31 +85,37 @@ namespace IA_TP1_Aspirateur_intelligent
                     }
                 }
             }
-
+            
             return cooList;
         }
 
         // Calculate the heuristic number
-        public int heuristique()
+        // Heuristic is equivalent to Manhattan distance, we first calculate the manhattan distance between a dirt/jewel and the vaccum and multiply it by a weight
+        // This weight correspond to the value of the object detected by the vaccum (2, 4 or 6) returned by getJewelDirt method.
+        // Hence the vaccum is more focused on big object (dirt + jewel > dirt > jewel)
+        public int heuristique(List<(int, int, int)> cooList)
         {
             int h = 0;
-            var cooList = getJewelDirt();
 
             int[] vacXY = getAspXY();
             int x = vacXY[0];
             int y = vacXY[1];
 
-            foreach (var item in cooList)
+
+            for (int i = 0; i < cooList.Count; i++)
             {
-                h += Math.Abs(x - item.Item1);
-                h += Math.Abs(y - item.Item2);
-                h += item.Item3;
+                // Improve heuristic
+                h += ( Math.Abs(x - cooList[i].Item1) + Math.Abs(y - cooList[i].Item2) ) * cooList[i].Item3;
+                //h += Math.Abs(y - cooList[i].Item2);
+                //h += cooList[i].Item3;
             }
 
+            //Console.WriteLine(h);
             return h;
+
         }
 
-        // Allow to know if the vaccum is on dirt or/and jewel
+        // Allow to know if the vaccum is on a cell with dirt or/and jewel
         public Boolean isJewelDirt()
         {
             int[] vacXY = getAspXY();

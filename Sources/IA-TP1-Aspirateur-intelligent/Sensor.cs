@@ -22,7 +22,7 @@ namespace IA_TP1_Aspirateur_intelligent
         // Get vacXY
         public int[] getVacXY()
         {
-            return Manor.getInstance().getAspXY();
+            return (int[]) Manor.getInstance().getAspXY().Clone();
         }
     }
 }

@@ -11,9 +11,6 @@ namespace IA_TP1_Aspirateur_intelligent
         private Actors actors;
         private Brain brain;
         private Queue<string> tasklist;
-        private int[,] state;
-        private int[,] desire;
-        private List<int[,]> desireStates;
 
         // Constructor
         public Aspirateur()
@@ -22,41 +19,26 @@ namespace IA_TP1_Aspirateur_intelligent
             actors = new Actors();
             brain  = new Brain();
             tasklist = new Queue<string>();
-            desire = calculateDesire();
-            desireStates = calculateDesireState();
-
         }
 
         // Awake the vaccum, which analyze the environment and add tasks to do in its tasklist to achieve desire in desire matrix
         public void wake()
         {
             // Get the state of the room
-            state = sensor.getSurroundings();
+            int[,] state = sensor.getSurroundings();
+            int[] vacXY = sensor.getVacXY();
+            List<int[,]> desireStates = calculateDesireState();
+
             // Get the path : tasklist
-            //tasklist = brain.search(state, desire); // TODO: Change desire to desireStates
-            tasklist = brain.newSearch(state, desireStates, sensor.getVacXY());
+            tasklist = brain.newSearch(state, desireStates, vacXY);
 
-            // Execute tasklist
-            actors.execute(tasklist.Dequeue());
-            actors.execute(tasklist.Dequeue());
-        }
-
-        // Create a desire matrix filled with 0 except in 0,0 with a 1
-        private int[,] calculateDesire()
-        {
-            int gridsize = 3;
-            desire = new int[gridsize, gridsize];
-
-            for (int i = 0; i < gridsize; i++)
+            // Execute the queue
+            int t = tasklist.Count;
+            for (int i = 0; i < t; i++)
             {
-                for (int j = 0; j < gridsize; j++)
-                {
-                    desire[i, j] = 0;
-                }
-
+                actors.execute(tasklist.Dequeue());
             }
-            desire[0, 0] = 1;
-            return desire;
+            
         }
 
 
@@ -64,7 +46,7 @@ namespace IA_TP1_Aspirateur_intelligent
         private List<int[,]> calculateDesireState()
         {
             List<int[,]> desireStates = new List<int[,]>();
-            int gridsize = 3;
+            int gridsize = 5;
 
             int[,] desire = new int[gridsize, gridsize];
 
@@ -86,9 +68,9 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 for (int j = 0; j < gridsize; j++)
                 {
-                    desire[i, j] = 1;         // Add 1
-                    desireStates.Add(desire); // Add the new desire state in the list
-                    desire = copyDesire;      // Reset desire
+                    desire[i, j] = 1;                          // Add 1
+                    desireStates.Add(desire);                  // Add the new desire state in the list
+                    desire = (int[,]) copyDesire.Clone();      // Reset desire
                 }
 
             }

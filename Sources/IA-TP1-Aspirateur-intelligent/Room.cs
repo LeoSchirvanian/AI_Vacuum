@@ -25,21 +25,6 @@ namespace IA_TP1_Aspirateur_intelligent
         {
             state = 0;
 
-            /*
-             * dirt | jewels | vaccum === > d|j|v
-             
-                djv
-                --- = 0
-                --v = 1
-                -j- = 2
-                -jv = 3
-                d-- = 4
-                d-v = 5
-                dj- = 6 
-                djv = 7
-
-             */
-
             if(hasDirt)
             {
                 state += 4;

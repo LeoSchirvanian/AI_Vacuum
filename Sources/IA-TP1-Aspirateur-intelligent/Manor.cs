@@ -8,7 +8,7 @@ namespace IA_TP1_Aspirateur_intelligent
     public sealed class Manor
     {
         // Constante
-        private static int GRID_SIZE = 3;
+        private static int GRID_SIZE = 5;
 
         // Attributs
         private static Manor instance;
@@ -110,10 +110,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
-                //vacThread.Join();
                 printFloorState();
-                //Console.WriteLine("THREAD : " + vacThread.ThreadState);
-                //Console.ReadLine();
                 Thread.Sleep(2000);
                 
             }
@@ -172,7 +169,7 @@ namespace IA_TP1_Aspirateur_intelligent
         // Get grid size
         public int getGridSize()
         {
-            return 3;
+            return GRID_SIZE;
         }
 
         // Compare array and return a boolean

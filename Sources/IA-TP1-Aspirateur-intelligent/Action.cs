@@ -9,7 +9,5 @@ namespace IA_TP1_Aspirateur_intelligent
     {
         // Methods in each Actions : MoveDown, MoveUp, MoveLeft, MoveRight
         void enact(Floor floor, int[] vacXY);
-        void reverse(Floor floor, int[] vacXY);
-        int getCost();
     }
 }
