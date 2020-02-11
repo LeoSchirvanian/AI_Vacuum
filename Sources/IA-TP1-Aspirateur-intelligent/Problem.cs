@@ -7,107 +7,68 @@ namespace IA_TP1_Aspirateur_intelligent
     class Problem
     {
         // Attributs
-        private int[,] desire;
-        private int[,] state;
         private Dictionary<string, Action> actions;
         
         // Constructor
         public Problem()
         {
+
+            // Attributs
             actions = new Dictionary<string, Action>();
+
+            // Add movement
             actions.Add("movedown", new Actions.MoveDown());
             actions.Add("moveleft", new Actions.MoveLeft());
             actions.Add("moveright", new Actions.MoveRight());
             actions.Add("moveup", new Actions.MoveUp());
-            actions.Add("clean", new Actions.Clean());
-            actions.Add("nothing", new Actions.Nothing());
-            actions.Add("pickup", new Actions.Pickup());
+
         }
 
-        // Test every actions possible given a node and add new states obtained in the dictionnary newstates
-        public Dictionary<string, Modelisation.Node> succession(Modelisation.Node currentNode)
+        // Test every actions given a node and return only a node with the lowest heuristic
+        public Modelisation.Node newSuccession(Modelisation.Node currentNode)
         {
-
-            Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
+            // Create
             Floor testingFloor = new Floor(currentNode.getState());
 
+            // Init
+            int minH = 100;
+            Floor succFloor = new Floor(currentNode.getState());   // For now, the successor is the root itself
+            string lastAct = "";
+
+            List<(int, int, int)> cooList = testingFloor.getJewelDirt();
+
+            // We determine the lowest heuristic successor
             foreach (KeyValuePair<string, Action> entry in actions)
             {
                 entry.Value.enact(testingFloor, currentNode.getVacXY());
-                Modelisation.Node newnode = new Modelisation.Node(
-                    testingFloor.getState(),
-                    testingFloor.getAspXY(),
-                    currentNode.getDepth() + 1,
-                    currentNode.getPathcost() + entry.Value.getCost(),
-                    false,
-                    entry.Key,
-                    currentNode
-                    ) ;
 
-                newStates.Add(entry.Key, newnode);
-                testingFloor.reset(); : // Return to the initial state
-
-                //testingFloor = new Floor(currentNode.getState());
-                //entry.Value.reverse(testingFloor, testingFloor.getAspXY());
-            }
-            return newStates;
-        }
-
-        // Test every reverse actions possible given a node and add new states obtained in the dictionnary newstates
-        public Dictionary<string, Modelisation.Node> retrosuccession(Modelisation.Node currentNode)
-        {
-            Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
-
-            Floor testingFloor = new Floor(currentNode.getState());
-
-            /*
-            Console.WriteLine("Retrosuccession");
-            Console.WriteLine("* -  -  -  -  -  *");
-            string line;
-
-            for (int i = 0; i < testingFloor.getState().GetLength(0); i++)
-            {
-                line = "|";
-                for (int j = 0; j < testingFloor.getState().GetLength(1); j++)
+                int h = testingFloor.heuristique(cooList); //heuristic
+                
+                // If the heuristic is below the actual min
+                if (h < minH)
                 {
-                    line += ' ' + testingFloor.getState()[i, j].ToString() + ' ';
+                    minH = h;                                       // We store this heuristic
+                    succFloor = new Floor(testingFloor.getState()); // We store this floor
+                    lastAct = entry.Key;                            // And the best action
                 }
 
-                line += '|';
-
-                Console.WriteLine(line);
+                testingFloor.reset();                               // Return to the initial state
             }
 
-            Console.WriteLine("* -  -  -  -  -  *");
-            */
+            //After the foreach, we can create this best successor
+            Modelisation.Node newState = new Modelisation.Node(
+                succFloor.getState(),
+                succFloor.getAspXY(),
+                currentNode.getDepth() + 1,
+                minH,
+                false,
+                lastAct,
+                currentNode
+            );
 
-            foreach (KeyValuePair<string, Action> entry in actions)
-            {
-                entry.Value.reverse(testingFloor, currentNode.getVacXY());
-                Modelisation.Node newnode = new Modelisation.Node(
-                    testingFloor.getState(),
-                    testingFloor.getAspXY(),
-                    currentNode.getDepth() + 1,
-                    currentNode.getPathcost() + entry.Value.getCost(),
-                    false,
-                    entry.Key,
-                    currentNode
-                    );
+            return newState;
 
-                newStates.Add(entry.Key, newnode);
-                testingFloor.reset();
-                //testingFloor = new Floor(currentNode.getState());
-                //entry.Value.enact(testingFloor, testingFloor.getAspXY());
-            }
-
-
-            return newStates;
         }
 
-        // Test if we achieved our desire state
-        public bool goalTest(int[,] tested)
-        {
-            return (tested == desire);
-        }
     }
 }

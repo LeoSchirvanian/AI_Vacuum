@@ -8,172 +8,101 @@ namespace IA_TP1_Aspirateur_intelligent
     {
         // Attributs
         private Problem problem;
-        private List<Modelisation.Node> tree_fs;
-        private List<Modelisation.Node> tree_fg;
-        private List<Modelisation.Node> frontiere_fs;
-        private List<Modelisation.Node> frontiere_fg;
-        private List<Modelisation.Node> visited_fs;
-        private List<Modelisation.Node> visited_fg;
-
+        private Queue<string> tasklist;
+        private List<Modelisation.Node> tree;
 
         // Constructor
         public Brain()
         {
             problem = new Problem();                      // Problem
-            tree_fs = new List<Modelisation.Node>();      // List of node
-            tree_fg = new List<Modelisation.Node>();      // List of node
-            frontiere_fs = new List<Modelisation.Node>(); // List of node
-            frontiere_fg = new List<Modelisation.Node>(); // List of node
-            visited_fs = new List<Modelisation.Node>();   // List of node
-            visited_fg = new List<Modelisation.Node>();   // List of node
+            tasklist = new Queue<string>();               // Tasklist
+            tree = new List<Modelisation.Node>();         // Tree
 
         }
 
-        // Generate a tasklist, first find the root node and descend the tree till finding the goal node and returning the action tasklist queue
-        private Queue<string> generateTasklist(Modelisation.Node ns, Modelisation.Node ng)
+        // New method search
+        public Queue<string> newSearch(int[,] initstate, List<int[,]> desireStates, int[] vacXY)
         {
-            //Modelisation.Node intersection = search(state);
-            List<string> actions = new List<string>();
-
-            // While we do not find the root node
-            while(ns.getLastAction() != "root" )
+            // First check if initstate is one of our desireStates
+            //*
+            foreach (int[,] d in desireStates)
             {
-                actions.Insert(0, ns.getLastAction());
-                ns = ns.getParent();  // We keep climbing the tree
+                // If one of them is equal, then no need to search a tasklist
+                if (isArrayEqual(initstate, d))
+                {
+                    // Stop method
+                    Queue<string> q = new Queue<string>();
+                    return q;
+                }
             }
+            //*/
 
-            // While we do not find the root node
-            while (ng.getLastAction() != "goal")
-            {
-                actions.Add(ng.getLastAction());
-                ng = ng.getParent();  // We keep descending the tree
-            }
+            // Clear tree
+            tree.Clear();
+            tasklist.Clear();
 
-            // New queue filled with the 
-            Queue<string> queue = new Queue<string>(actions);
-
-            //Console.WriteLine("Tasklist returning ...");
-            return queue;
-        }
-
-
-        public Queue<string> search(int[,] initstate, int[,] desiredstate)
-        {
-            // Create a root node with a initial state
-            Modelisation.Node rootn = new Modelisation.Node(
+            // Create a root node with initial state
+            Modelisation.Node root = new Modelisation.Node(
                     initstate,      // initial state
-                    new[] { 0, 0 }, // vacXY
+                    vacXY,          // vacXY
                     0,              // depth
-                    0,              // pathcost
+                    100,            // heuristic
                     false,          // visited
-                    "root"          // lastaction
-                );
-            Modelisation.Node goaln = new Modelisation.Node(
-                    desiredstate,   // desired state
-                    new[] { 0, 0 }, // vacXY
-                    0,              // depth
-                    0,              // pathcost
-                    false,          // visited
-                    "goal"          // lastaction
+                    "nothing"          // lastaction
                 );
 
-            // Clear
-            tree_fs.Clear();
-            tree_fg.Clear();
-            frontiere_fs.Clear();
-            frontiere_fg.Clear();
-            visited_fs.Clear();
-            visited_fg.Clear();
+            tree.Add(root);
 
-            // Add root and goal node
-            tree_fs.Add(rootn);
-            tree_fg.Add(goaln);
-
+            // Represent index of exploration : here it's Breadth first search
             int borderindex = 0;
 
-            while (true)
+            bool b = true;
+
+            while (b)
             {
-                //Console.WriteLine("Tour " + caca++);
-                //Console.WriteLine("Compte : " + frontiere_fs.Count);
-                Dictionary<string, Modelisation.Node> s_successors = problem.succession(tree_fs[borderindex]);
-                
-                Dictionary<string, Modelisation.Node> g_successors = problem.retrosuccession(tree_fg[borderindex]);
+                // We check if the last node state of tree is on dirt or jewel
+                Floor f = new Floor(tree[borderindex].getState());
 
-                //visited_fs.Add(frontiere_fs[0]);
-                //visited_fg.Add(frontiere_fg[0]);
-
-                //frontiere_fs.RemoveAt(0);
-                //frontiere_fg.RemoveAt(0);
-
-
-
-                foreach (KeyValuePair<string,Modelisation.Node> entry in s_successors)
+                // If the vaccum is on jewel or dirt
+                if (f.isJewelDirt() != 0)
                 {
-                    //if (isPresent(entry.Value, visited_fs) != null)
-                    /*
-                    if ( isPresent(entry.Value, tree_fs.GetRange(0, borderindex)) != null )
+                    switch (f.isJewelDirt())
                     {
-                        Console.WriteLine("Entry is present");
-                        break;
-                    }*/
-
-                    //if (isPresent(entry.Value, visited_fg) != null)
-                    if ( isPresent(entry.Value, tree_fg.GetRange(0, borderindex)) != null )
-                    {
-                        Console.WriteLine("Trouve un truc en A ");
-                        //Modelisation.Node[] x = isPresent(entry.Value, visited_fg);
-                        Modelisation.Node[] x = isPresent(entry.Value, tree_fg.GetRange(0, borderindex));
-                        return generateTasklist(x[0], x[1]);
+                        case 3:
+                            tasklist.Enqueue("pickup");
+                            b = false;
+                            break;
+                        case 5:
+                            tasklist.Enqueue("clean");
+                            b = false;
+                            break;
+                        case 7:
+                            tasklist.Enqueue("pickup");
+                            tasklist.Enqueue("clean");
+                            b = false;
+                            break;
+                        default:
+                            b = false;
+                            break;
                     }
-                    //frontiere_fs.Add(entry.Value);
-                    tree_fs.Add(entry.Value);
                     
                 }
 
-                //Console.ReadLine();
-
-                foreach(KeyValuePair<string, Modelisation.Node> entry in g_successors)
+                // If not
+                else
                 {
-                    //if (isPresent(entry.Value, visited_fg) != null)
-                    /*
-                    if (isPresent(entry.Value, tree_fg.GetRange(0, borderindex)) != null)
-                    {
-                        break;
-                    } */
-                    //if (isPresent(entry.Value, visited_fs) != null)
-                    if (isPresent(entry.Value, tree_fs.GetRange(0, borderindex)) != null)
-                    {
-                        Console.WriteLine("Trouve un truc en B ");
-                        //Modelisation.Node[] x = isPresent(entry.Value, visited_fs);
-                        Modelisation.Node[] x = isPresent(entry.Value, tree_fs.GetRange(0, borderindex));
-                        return generateTasklist(x[1], x[0]);
-                    }
-                    //frontiere_fg.Add(entry.Value);
-                    tree_fg.Add(entry.Value);
+                    Modelisation.Node succ = problem.newSuccession(tree[borderindex]);  // Get successor
+                            
+                    tree.Add(succ);                         // Add it to the tree
+                    tasklist.Enqueue(succ.getLastAction()); // add last action
+
+                    borderindex++; // Increment borderIndex
                 }
-
-                //frontiere_fs.RemoveAt(0);
-                //frontiere_fg.RemoveAt(0);
-
-                //Console.ReadLine();
-                borderindex++;
+                        
             }
 
-        }
-
-        // Check if node is in visited node list
-        private Modelisation.Node[] isPresent(Modelisation.Node node, List<Modelisation.Node> visited)
-        {
-            foreach( Modelisation.Node n in visited)
-            {
-                //Console.WriteLine("Checked for presence");
-                if ( isArrayEqual(node.getState(), n.getState()) )
-                //if (node == n)
-                {
-                    return new[] { node, n };
-                }
-            }
-            return null;
+            return tasklist;
+                  
         }
 
         // Array equal method
@@ -183,7 +112,6 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 return false;
             }
-
             for (int i = 0; i < a.GetLength(0); i++)
             {
                 for (int j = 0; j < a.GetLength(1); j++)
@@ -194,9 +122,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     }
                 }
             }
-
             return true;
         }
-
     }
 }

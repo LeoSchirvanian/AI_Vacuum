@@ -8,7 +8,7 @@ namespace IA_TP1_Aspirateur_intelligent
     public sealed class Manor
     {
         // Constante
-        private static int GRID_SIZE = 3;
+        private static int GRID_SIZE = 5;
 
         // Attributs
         private static Manor instance;
@@ -68,8 +68,8 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 schmutzfabrik.dirty(floor);
 
-                // Sleep 10s
-                Thread.Sleep(10000);
+                // Sleep 4s
+                Thread.Sleep(2000);
             }
         }
 
@@ -80,8 +80,8 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 juwelfabrik.drop(floor);
 
-                // Sleep 10s
-                Thread.Sleep(10000);
+                // Sleep 4s
+                Thread.Sleep(2000);
             }
         }
 
@@ -110,11 +110,14 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
-                //vacThread.Join();
+                //Print vaccum performance
+                Console.WriteLine("Performance : " + aspirateur.getPerformance());
+
+                // Print Floor state
                 printFloorState();
-                //Console.WriteLine("THREAD : " + vacThread.ThreadState);
-                //Console.ReadLine();
-                Thread.Sleep(2000);
+
+                //Sleep 0.5s
+                Thread.Sleep(500);
                 
             }
         }
@@ -172,7 +175,7 @@ namespace IA_TP1_Aspirateur_intelligent
         // Get grid size
         public int getGridSize()
         {
-            return 3;
+            return GRID_SIZE;
         }
 
         // Compare array and return a boolean
