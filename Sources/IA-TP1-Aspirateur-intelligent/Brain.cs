@@ -23,6 +23,9 @@ namespace IA_TP1_Aspirateur_intelligent
         public Brain()
         {
             problem = new Problem();                      // Problem
+            tasklist = new Queue<string>();               // Tasklist
+            tree = new List<Modelisation.Node>();         // Tree
+
             tree_fs = new List<Modelisation.Node>();      // List of node
             tree_fg = new List<Modelisation.Node>();      // List of node
             frontiere_fs = new List<Modelisation.Node>(); // List of node
@@ -63,69 +66,72 @@ namespace IA_TP1_Aspirateur_intelligent
         public Queue<string> newSearch(int[,] initstate, List<int[,]> desireStates, int[] vacXY)
         {
             // First check if initstate is one of our desireStates
+            /*
             foreach (int[,] d in desireStates)
             {
                 // If one of them is equal, then no need to search a tasklist
-                if ( isArrayEqual(initstate, d))
+                if (isArrayEqual(initstate, d))
                 {
                     // Stop method
                     Queue<string> q = new Queue<string>();
                     return q;
                 }
+            }
+            */
+                    
+            // Create a root node with initial state
+            Modelisation.Node root = new Modelisation.Node(
+                    initstate,      // initial state
+                    vacXY,          // vacXY
+                    0,              // depth
+                    100,            // heuristic
+                    false,          // visited
+                    "root"          // lastaction
+                );
 
-                // If not, we need to search
+            // Clear tree
+            tree.Clear();
+            tasklist.Clear();
+
+            tree.Add(root);
+
+            // Add the root lastAction
+            //tree.Add(root.getLastAction());
+
+            // Represent index of exploration : here it's Breadth first search
+            int borderindex = 0;
+
+            bool b = true;
+
+            while (b)
+            {
+                Floor f = new Floor(initstate);
+
+                // If the vaccum is on jewel or dirt
+                if (f.isJewelDirt())
+                {
+                    // TODO : We only need to pickup then to clean, could be optimized
+                    tasklist.Enqueue("pickup");
+                    tasklist.Enqueue("clean");
+                    // stop the loop
+                    b = false;
+                }
+
+                // If not
                 else
                 {
-                    
-                    // Create a root node with initial state
-                    Modelisation.Node root = new Modelisation.Node(
-                            initstate,      // initial state
-                            vacXY,          // vacXY
-                            0,              // depth
-                            100,            // heuristic
-                            false,          // visited
-                            "root"          // lastaction
-                        );
-
-                    // Clear tree
-                    tasklist.Clear();
-
-                    // Add the root lastAction
-                    //tree.Add(root.getLastAction());
-
-                    // Represent index of exploration : here it's Breadth first search
-                    int borderindex = 0;
-
-                    while (true)
-                    {
-                        Floor f = new Floor(initstate);
-
-                        // If the vaccum is on jewel or dirt
-                        if (f.isJewelDirt())
-                        {
-                            // TODO : We only need to pickup then to clean, could be optimized
-                            //Queue<string> queue = new Queue<string>();
-                            tasklist.Enqueue("pickup");
-                            tasklist.Enqueue("clean");
-                            return tasklist;
-                        }
-
-                        // If not
-                        else
-                        {
-                            Modelisation.Node succ = problem.newSuccession(tree[borderindex]);  // Get successor
+                    Modelisation.Node succ = problem.newSuccession(tree[borderindex]);  // Get successor
                             
-                            tree.Add(succ);                         // Add it to the tree
-                            tasklist.Enqueue(succ.getLastAction()); // add last action
+                    tree.Add(succ);                         // Add it to the tree
+                    tasklist.Enqueue(succ.getLastAction()); // add last action
 
-                            borderindex++; // Increment borderIndex
-                        }
-                        
-                    }
+                    borderindex++; // Increment borderIndex
                 }
-                    
-
+                        
             }
+
+            return tasklist;
+                  
         }
 
         public Queue<string> search(int[,] initstate, int[,] desiredstate)
