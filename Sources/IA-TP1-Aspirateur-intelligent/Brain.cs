@@ -31,7 +31,6 @@ namespace IA_TP1_Aspirateur_intelligent
                 if (isArrayEqual(initstate, d))
                 {
                     // Stop method
-                    Console.WriteLine("Desire state");                             //MARCHE !!!!
                     Queue<string> q = new Queue<string>();
                     return q;
                 }
@@ -65,14 +64,27 @@ namespace IA_TP1_Aspirateur_intelligent
                 Floor f = new Floor(tree[borderindex].getState());
 
                 // If the vaccum is on jewel or dirt
-                if (f.isJewelDirt())
+                if (f.isJewelDirt() != 0)
                 {
-                    // TODO : We only need to pickup then to clean, could be optimized
-                    tasklist.Enqueue("pickup");
-                    tasklist.Enqueue("clean");
-                    //Console.WriteLine("Sale en tasklist");
-                    // stop the loop
-                    b = false;
+                    switch (f.isJewelDirt())
+                    {
+                        case 3:
+                            tasklist.Enqueue("pickup");
+                            b = false;
+                            break;
+                        case 5:
+                            tasklist.Enqueue("clean");
+                            b = false;
+                            break;
+                        case 7:
+                            tasklist.Enqueue("pickup");
+                            tasklist.Enqueue("clean");
+                            b = false;
+                            break;
+                        default:
+                            break;
+                    }
+                    
                 }
 
                 // If not

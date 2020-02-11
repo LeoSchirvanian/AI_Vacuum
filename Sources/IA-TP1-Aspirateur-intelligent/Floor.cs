@@ -104,29 +104,46 @@ namespace IA_TP1_Aspirateur_intelligent
 
             for (int i = 0; i < cooList.Count; i++)
             {
-                // Improve heuristic
+                // Definition of heuristic 
                 h += ( Math.Abs(x - cooList[i].Item1) + Math.Abs(y - cooList[i].Item2) ) * cooList[i].Item3;
-                //h += Math.Abs(y - cooList[i].Item2);
-                //h += cooList[i].Item3;
             }
-
-            //Console.WriteLine(h);
             return h;
 
         }
 
         // Allow to know if the vaccum is on a cell with dirt or/and jewel
-        public Boolean isJewelDirt()
+        public int isJewelDirt()
         {
             int[] vacXY = getAspXY();
             int x = vacXY[0];
             int y = vacXY[1];
 
+            switch(state[x, y])
+            {
+                case 3:
+                    return 3;
+                    break;
+
+                case 5:
+                    return 5;
+                    break;
+
+                case 7:
+                    return 7;
+                    break;
+
+                default:
+                    return 0;
+                    break;
+            }
+
+            /*
             if(state[x,y] > 1)
             {
                 return true;
             }
             return false;
+            */
         }
 
         // Add dirt on the floor, dirt => x % 4 == 0 or x > 4
