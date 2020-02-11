@@ -82,6 +82,7 @@ namespace IA_TP1_Aspirateur_intelligent
                             b = false;
                             break;
                         default:
+                            b = false;
                             break;
                     }
                     

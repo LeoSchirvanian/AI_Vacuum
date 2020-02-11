@@ -9,7 +9,6 @@ namespace IA_TP1_Aspirateur_intelligent
         // Attributs
         private int[,] state;
         private int[,] initialState;
-        //private List<int[,]> desireStates;
 
         // Constructor by size
         public Floor(int size)
@@ -120,30 +119,21 @@ namespace IA_TP1_Aspirateur_intelligent
 
             switch(state[x, y])
             {
+                // Vaccum + jewel
                 case 3:
                     return 3;
-                    break;
 
+                // Vaccum + dirt
                 case 5:
                     return 5;
-                    break;
 
+                // Vaccum + dirt + jewel
                 case 7:
                     return 7;
-                    break;
 
                 default:
                     return 0;
-                    break;
             }
-
-            /*
-            if(state[x,y] > 1)
-            {
-                return true;
-            }
-            return false;
-            */
         }
 
         // Add dirt on the floor, dirt => x % 4 == 0 or x > 4

@@ -7,8 +7,6 @@ namespace IA_TP1_Aspirateur_intelligent
     class Problem
     {
         // Attributs
-        private int[,] desire;
-        private int[,] state;
         private Dictionary<string, Action> actions;
         
         // Constructor
@@ -72,15 +70,5 @@ namespace IA_TP1_Aspirateur_intelligent
 
         }
 
-        public int[,] getState()
-        {
-            return state;
-        }
-
-        // Test if we achieved our desire state
-        public bool goalTest(int[,] tested)
-        {
-            return (tested == desire);
-        }
     }
 }

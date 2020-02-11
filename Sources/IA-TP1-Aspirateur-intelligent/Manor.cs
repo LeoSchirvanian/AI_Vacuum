@@ -68,8 +68,8 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 schmutzfabrik.dirty(floor);
 
-                // Sleep 10s
-                Thread.Sleep(10000);
+                // Sleep 4s
+                Thread.Sleep(2000);
             }
         }
 
@@ -80,8 +80,8 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 juwelfabrik.drop(floor);
 
-                // Sleep 10s
-                Thread.Sleep(10000);
+                // Sleep 4s
+                Thread.Sleep(2000);
             }
         }
 
@@ -110,8 +110,14 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
+                //Print vaccum performance
+                Console.WriteLine("Performance : " + aspirateur.getPerformance());
+
+                // Print Floor state
                 printFloorState();
-                Thread.Sleep(2000);
+
+                //Sleep 0.5s
+                Thread.Sleep(500);
                 
             }
         }

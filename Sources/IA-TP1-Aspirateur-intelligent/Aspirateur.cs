@@ -11,6 +11,7 @@ namespace IA_TP1_Aspirateur_intelligent
         private Actors actors;
         private Brain brain;
         private Queue<string> tasklist;
+        private int performance = 0;
 
         // Constructor
         public Aspirateur()
@@ -31,6 +32,17 @@ namespace IA_TP1_Aspirateur_intelligent
 
             // Get the path : tasklist
             tasklist = brain.newSearch(state, desireStates, vacXY);
+
+            // Find a path
+            if(tasklist.Count > 0)
+            {
+                performance += 10;
+            }
+
+            if(tasklist.Count > 15)
+            {
+                performance = -100000;
+            }
 
             // Execute the queue
             int t = tasklist.Count;
@@ -76,6 +88,11 @@ namespace IA_TP1_Aspirateur_intelligent
             }
 
             return desireStates;
+        }
+
+        public int getPerformance()
+        {
+            return performance;
         }
 
     }
