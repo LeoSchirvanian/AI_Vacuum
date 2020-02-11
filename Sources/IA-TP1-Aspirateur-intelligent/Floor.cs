@@ -88,53 +88,7 @@ namespace IA_TP1_Aspirateur_intelligent
             return cooList;
         }
 
-        // Calculate the heuristic number
-        // Heuristic is equivalent to Manhattan distance, we first calculate the manhattan distance between a dirt/jewel and the vaccum and multiply it by a weight
-        // This weight correspond to the value of the object detected by the vaccum (2, 4 or 6) returned by getJewelDirt method.
-        // Hence the vaccum is more focused on big object (dirt + jewel > dirt > jewel)
-        public int heuristique(List<(int, int, int)> cooList)
-        {
-            int h = 0;
-
-            int[] vacXY = getAspXY();
-            int x = vacXY[0];
-            int y = vacXY[1];
-
-
-            for (int i = 0; i < cooList.Count; i++)
-            {
-                // Definition of heuristic 
-                h += ( Math.Abs(x - cooList[i].Item1) + Math.Abs(y - cooList[i].Item2) ) * cooList[i].Item3;
-            }
-            return h;
-
-        }
-
-        // Allow to know if the vaccum is on a cell with dirt or/and jewel
-        public int isJewelDirt()
-        {
-            int[] vacXY = getAspXY();
-            int x = vacXY[0];
-            int y = vacXY[1];
-
-            switch(state[x, y])
-            {
-                // Vaccum + jewel
-                case 3:
-                    return 3;
-
-                // Vaccum + dirt
-                case 5:
-                    return 5;
-
-                // Vaccum + dirt + jewel
-                case 7:
-                    return 7;
-
-                default:
-                    return 0;
-            }
-        }
+        
 
         // Add dirt on the floor, dirt => x % 4 == 0 or x > 4
         public void dirt(int[] coo)

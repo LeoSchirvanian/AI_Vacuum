@@ -31,7 +31,7 @@ namespace IA_TP1_Aspirateur_intelligent
             List<int[,]> desireStates = calculateDesireState();
 
             // Get the path : tasklist
-            tasklist = brain.newSearch(state, desireStates, vacXY);
+            tasklist = brain.search(state, desireStates, vacXY);
 
             // Find a path
             if(tasklist.Count > 0)
@@ -61,16 +61,6 @@ namespace IA_TP1_Aspirateur_intelligent
             int gridsize = 5;
 
             int[,] desire = new int[gridsize, gridsize];
-
-            // Null matrix
-            for (int i = 0; i < gridsize; i++)
-            {
-                for (int j = 0; j < gridsize; j++)
-                {
-                    desire[i, j] = 0;
-                }
-
-            }
 
             // Copy desire matrix
             int[,] copyDesire = (int[,])desire.Clone();

@@ -20,8 +20,34 @@ namespace IA_TP1_Aspirateur_intelligent
 
         }
 
-        // New method search
-        public Queue<string> newSearch(int[,] initstate, List<int[,]> desireStates, int[] vacXY)
+        // Allow to know if the vaccum is on a cell with dirt or/and jewel
+        public int isJewelDirt(int[,] state, int[] aspXY)
+        {
+            int[] vacXY = aspXY;
+            int x = vacXY[0];
+            int y = vacXY[1];
+
+            switch (state[x, y])
+            {
+                // Vaccum + jewel
+                case 3:
+                    return 3;
+
+                // Vaccum + dirt
+                case 5:
+                    return 5;
+
+                // Vaccum + dirt + jewel
+                case 7:
+                    return 7;
+
+                default:
+                    return 0;
+            }
+        }
+
+        // Method search
+        public Queue<string> search(int[,] initstate, List<int[,]> desireStates, int[] vacXY)
         {
             // First check if initstate is one of our desireStates
             //*
@@ -61,12 +87,13 @@ namespace IA_TP1_Aspirateur_intelligent
             while (b)
             {
                 // We check if the last node state of tree is on dirt or jewel
-                Floor f = new Floor(tree[borderindex].getState());
+                //Floor f = new Floor(tree[borderindex].getState());
+                int d = isJewelDirt(tree[borderindex].getState(), tree[borderindex].getVacXY());
 
                 // If the vaccum is on jewel or dirt
-                if (f.isJewelDirt() != 0)
+                if ( d != 0)
                 {
-                    switch (f.isJewelDirt())
+                    switch (d)
                     {
                         case 3:
                             tasklist.Enqueue("pickup");
@@ -91,7 +118,7 @@ namespace IA_TP1_Aspirateur_intelligent
                 // If not
                 else
                 {
-                    Modelisation.Node succ = problem.newSuccession(tree[borderindex]);  // Get successor
+                    Modelisation.Node succ = problem.succession(tree[borderindex]);  // Get successor
                             
                     tree.Add(succ);                         // Add it to the tree
                     tasklist.Enqueue(succ.getLastAction()); // add last action

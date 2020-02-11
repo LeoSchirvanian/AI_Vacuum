@@ -110,6 +110,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
+                Console.Clear();
                 //Print vaccum performance
                 Console.WriteLine("Performance : " + aspirateur.getPerformance());
 

@@ -24,8 +24,30 @@ namespace IA_TP1_Aspirateur_intelligent
 
         }
 
+        // Calculate the heuristic number
+        // Heuristic is equivalent to Manhattan distance, we first calculate the manhattan distance between a dirt/jewel and the vaccum and multiply it by a weight
+        // This weight correspond to the value of the object detected by the vaccum (2, 4 or 6) returned by getJewelDirt method.
+        // Hence the vaccum is more focused on big object (dirt + jewel > dirt > jewel)
+        public int heuristique(List<(int, int, int)> cooList, int[] aspXY)
+        {
+            int h = 0;
+
+            int[] vacXY = aspXY;
+            int x = vacXY[0];
+            int y = vacXY[1];
+
+
+            for (int i = 0; i < cooList.Count; i++)
+            {
+                // Definition of heuristic 
+                h += (Math.Abs(x - cooList[i].Item1) + Math.Abs(y - cooList[i].Item2)) * cooList[i].Item3;
+            }
+            return h;
+
+        }
+
         // Test every actions given a node and return only a node with the lowest heuristic
-        public Modelisation.Node newSuccession(Modelisation.Node currentNode)
+        public Modelisation.Node succession(Modelisation.Node currentNode)
         {
             // Create
             Floor testingFloor = new Floor(currentNode.getState());
@@ -42,7 +64,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 entry.Value.enact(testingFloor, currentNode.getVacXY());
 
-                int h = testingFloor.heuristique(cooList); //heuristic
+                int h = heuristique(cooList, testingFloor.getAspXY()); //heuristic
                 
                 // If the heuristic is below the actual min
                 if (h < minH)
