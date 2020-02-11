@@ -9,6 +9,7 @@ namespace IA_TP1_Aspirateur_intelligent
         // Attributs
         private int[,] state;
         private int[,] initialState;
+        private List<int[,]> desireStates;
 
         // Constructor by size
         public Floor(int size)
@@ -67,6 +68,61 @@ namespace IA_TP1_Aspirateur_intelligent
 
             throw new Exception("Did not find the vaccum");
 
+        }
+
+        //Get dirt or jewel localisation and value
+        public List<(int, int, int)> getJewelDirt()
+        {
+            var cooList = new List<(int, int, int)>();
+            int gridsize = 3;
+
+            for (int i = 0; i < gridsize; i++)
+            {
+                for (int j = 0; j < gridsize; j++)
+                {
+                    // If not clean or not vaccum alone, add localisation into the list
+                    if (state[i, j] > 1)
+                    {
+                        cooList.Add((i, j, state[i, j]));
+                    }
+                }
+            }
+
+            return cooList;
+        }
+
+        // Calculate the heuristic number
+        public int heuristique()
+        {
+            int h = 0;
+            var cooList = getJewelDirt();
+
+            int[] vacXY = getAspXY();
+            int x = vacXY[0];
+            int y = vacXY[1];
+
+            foreach (var item in cooList)
+            {
+                h += Math.Abs(x - item.Item1);
+                h += Math.Abs(y - item.Item2);
+                h += item.Item3;
+            }
+
+            return h;
+        }
+
+        // Allow to know if the vaccum is on dirt or/and jewel
+        public Boolean isJewelDirt()
+        {
+            int[] vacXY = getAspXY();
+            int x = vacXY[0];
+            int y = vacXY[1];
+
+            if(state[x,y] > 1)
+            {
+                return true;
+            }
+            return false;
         }
 
         // Add dirt on the floor, dirt => x % 4 == 0 or x > 4

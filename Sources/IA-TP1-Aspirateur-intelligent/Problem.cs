@@ -24,6 +24,51 @@ namespace IA_TP1_Aspirateur_intelligent
             actions.Add("pickup", new Actions.Pickup());
         }
 
+        // Test every actions given a node and return only a node with the lowest heuristic
+        public Modelisation.Node newSuccession(Modelisation.Node currentNode)
+        {
+            Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
+            Floor testingFloor = new Floor(currentNode.getState());
+
+            int minH = 100;
+            Floor succFloor = new Floor(currentNode.getState());   // For now, the successor is the root itself
+            string lastAct = "";
+            //Modelisation.Node newState = new Modelisation.Node();
+
+            // We determine the lowest heuristic successor
+            foreach (KeyValuePair<string, Action> entry in actions)
+            {
+                entry.Value.enact(testingFloor, currentNode.getVacXY());
+
+                int h = testingFloor.heuristique(); //heuristic
+                
+
+                // If the heuristic is below the actual min
+                if (h < minH)
+                {
+                    minH = h;                                       // We store this heuristic
+                    succFloor = new Floor(testingFloor.getState()); // We store this floor
+                    lastAct = entry.Key;                            // And the best action
+                }
+
+                testingFloor.reset();                               // Return to the initial state
+            }
+
+            //After the foreach, we can create this best successor
+            Modelisation.Node newState = new Modelisation.Node(
+                succFloor.getState(),
+                succFloor.getAspXY(),
+                currentNode.getDepth() + 1,
+                minH,
+                false,
+                lastAct,
+                currentNode
+            );
+
+            return newState;
+
+        }
+
         // Test every actions possible given a node and add new states obtained in the dictionnary newstates
         public Dictionary<string, Modelisation.Node> succession(Modelisation.Node currentNode)
         {
@@ -74,6 +119,11 @@ namespace IA_TP1_Aspirateur_intelligent
                 testingFloor.reset();
             }
             return newStates;
+        }
+
+        public int[,] getState()
+        {
+            return state;
         }
 
         // Test if we achieved our desire state

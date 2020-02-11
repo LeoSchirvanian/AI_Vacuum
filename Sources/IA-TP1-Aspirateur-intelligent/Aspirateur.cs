@@ -33,14 +33,8 @@ namespace IA_TP1_Aspirateur_intelligent
             // Get the state of the room
             state = sensor.getSurroundings();
             // Get the path : tasklist
-            tasklist = brain.search(state, desire); // TODO: Change desire to desireStates
-
-            /*
-            foreach(string a in tasklist)
-            {
-                Console.WriteLine(a);
-            }
-            */
+            //tasklist = brain.search(state, desire); // TODO: Change desire to desireStates
+            tasklist = brain.newSearch(state, desireStates, sensor.getVacXY());
 
             // Execute tasklist
             actors.execute(tasklist.Dequeue());
@@ -64,6 +58,7 @@ namespace IA_TP1_Aspirateur_intelligent
             desire[0, 0] = 1;
             return desire;
         }
+
 
         // Create 9 differents desire states : 9 positions of vaccum in a clean room
         private List<int[,]> calculateDesireState()
