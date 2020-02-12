@@ -47,7 +47,7 @@ namespace IA_TP1_Aspirateur_intelligent
         }
 
         // Method search
-        public Queue<string> search(int[,] initstate, List<int[,]> desireStates, int[] vacXY)
+        public Queue<string> searchInforme(int[,] initstate, List<int[,]> desireStates, int[] vacXY)
         {
             // First check if initstate is one of our desireStates
             //*
@@ -80,7 +80,9 @@ namespace IA_TP1_Aspirateur_intelligent
             tree.Add(root);
 
             // Represent index of exploration : here it's Breadth first search
-            int borderindex = 0;
+            //int borderindex = 0;
+
+            List<Modelisation.Node> succ = new List<Modelisation.Node>();
 
             bool b = true;
 
@@ -88,7 +90,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 // We check if the last node state of tree is on dirt or jewel
                 //Floor f = new Floor(tree[borderindex].getState());
-                int d = isJewelDirt(tree[borderindex].getState(), tree[borderindex].getVacXY());
+                int d = isJewelDirt(tree[tree.Count-1].getState(), tree[tree.Count - 1].getVacXY());
 
                 // If the vaccum is on jewel or dirt
                 if ( d != 0)
@@ -97,17 +99,15 @@ namespace IA_TP1_Aspirateur_intelligent
                     {
                         case 3:
                             tasklist.Enqueue("pickup");
-                            b = false;
-                            break;
+                            return tasklist;
                         case 5:
                             tasklist.Enqueue("clean");
-                            b = false;
-                            break;
+                            return tasklist;
+
                         case 7:
                             tasklist.Enqueue("pickup");
                             tasklist.Enqueue("clean");
-                            b = false;
-                            break;
+                            return tasklist;
                         default:
                             b = false;
                             break;
@@ -118,18 +118,38 @@ namespace IA_TP1_Aspirateur_intelligent
                 // If not
                 else
                 {
-                    Modelisation.Node succ = problem.succession(tree[borderindex]);  // Get successor
-                            
-                    tree.Add(succ);                         // Add it to the tree
-                    tasklist.Enqueue(succ.getLastAction()); // add last action
-
-                    borderindex++; // Increment borderIndex
+                    tree = problem.successionInforme( tree[tree.Count - 1], tree ); // Get successor
                 }
-                        
+
+                tasklist = generatetasklist(tree);
+
             }
 
             return tasklist;
                   
+        }
+
+        // Generate tasklist from a node list
+        public Queue<string> generatetasklist(List<Modelisation.Node> l)
+        {
+            Queue<string> tasklist = new Queue<string>();
+
+            if(l.Count != 0)
+            {
+                Modelisation.Node node = l[l.Count -1];
+
+                // While the node is not the root node, we add its lastaction to the tasklist
+                while (node.getLastAction() != "nothing")
+                {
+                    tasklist.Enqueue(node.getLastAction());
+                    node = node.getParent();
+                }
+
+                //tasklist.Enqueue(node.getLastAction());
+
+            }
+
+            return tasklist;
         }
 
         // Array equal method

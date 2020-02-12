@@ -17,10 +17,13 @@ namespace IA_TP1_Aspirateur_intelligent
             actions = new Dictionary<string, Action>();
 
             // Add movement
+            actions.Add("nothing", new Actions.Nothing());
             actions.Add("movedown", new Actions.MoveDown());
             actions.Add("moveleft", new Actions.MoveLeft());
             actions.Add("moveright", new Actions.MoveRight());
             actions.Add("moveup", new Actions.MoveUp());
+            actions.Add("pickup", new Actions.Pickup());
+            actions.Add("clean", new Actions.Clean());
 
         }
 
@@ -47,48 +50,68 @@ namespace IA_TP1_Aspirateur_intelligent
         }
 
         // Test every actions given a node and return only a node with the lowest heuristic
-        public Modelisation.Node succession(Modelisation.Node currentNode)
+        public List<Modelisation.Node> successionInforme(Modelisation.Node currentNode, List<Modelisation.Node> l )
         {
             // Create
             Floor testingFloor = new Floor(currentNode.getState());
 
             // Init
-            int minH = 100;
+            int minH = 10000;
             Floor succFloor = new Floor(currentNode.getState());   // For now, the successor is the root itself
             string lastAct = "";
 
-            List<(int, int, int)> cooList = testingFloor.getJewelDirt();
+            // Copy currentNode, needed to store the best node
+            Modelisation.Node node = new Modelisation.Node(
+                currentNode.getState(),
+                currentNode.getVacXY(),
+                currentNode.getDepth(),
+                currentNode.getPathcost(),
+                currentNode.isVisited(),
+                currentNode.getLastAction(),
+                currentNode.getParent()
+            );
+
+            // Get coo
+            List <(int, int, int)> cooList = testingFloor.getJewelDirt();
 
             // We determine the lowest heuristic successor
             foreach (KeyValuePair<string, Action> entry in actions)
             {
                 entry.Value.enact(testingFloor, currentNode.getVacXY());
 
-                int h = heuristique(cooList, testingFloor.getAspXY()); //heuristic
-                
+                int h = heuristique(cooList, testingFloor.getAspXY());   // Heuristic
+
+                Modelisation.Node newState = new Modelisation.Node(
+                    testingFloor.getState(),
+                    testingFloor.getAspXY(),
+                    currentNode.getDepth() + 1,
+                    minH,
+                    false,
+                    entry.Key,
+                    currentNode
+                );
+
                 // If the heuristic is below the actual min
                 if (h < minH)
                 {
                     minH = h;                                       // We store this heuristic
-                    succFloor = new Floor(testingFloor.getState()); // We store this floor
+                    //succFloor = new Floor(testingFloor.getState()); // We store this floor
                     lastAct = entry.Key;                            // And the best action
+                    l.Add(node);                                    // Don't forget to add the previous best node in the list
+                    node = newState;
+                }
+                else
+                {
+                    l.Add(newState);
                 }
 
                 testingFloor.reset();                               // Return to the initial state
             }
 
-            //After the foreach, we can create this best successor
-            Modelisation.Node newState = new Modelisation.Node(
-                succFloor.getState(),
-                succFloor.getAspXY(),
-                currentNode.getDepth() + 1,
-                minH,
-                false,
-                lastAct,
-                currentNode
-            );
+            // Add the best node last
+            l.Add(node);
 
-            return newState;
+            return l;
 
         }
 

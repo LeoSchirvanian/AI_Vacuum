@@ -31,24 +31,46 @@ namespace IA_TP1_Aspirateur_intelligent
             List<int[,]> desireStates = calculateDesireState();
 
             // Get the path : tasklist
-            tasklist = brain.search(state, desireStates, vacXY);
-
-            // Find a path
-            if(tasklist.Count > 0)
-            {
-                performance += 10;
-            }
-
-            if(tasklist.Count > 15)
-            {
-                performance = -100000;
-            }
+            tasklist = brain.searchInforme(state, desireStates, vacXY);
 
             // Execute the queue
             int t = tasklist.Count;
             for (int i = 0; i < t; i++)
             {
-                actors.execute(tasklist.Dequeue());
+                string dq = tasklist.Dequeue();
+
+                // Performance update
+                switch (dq)
+                {
+                    case "clean":
+                        if( brain.isJewelDirt(state, vacXY) == 3 || brain.isJewelDirt(state, vacXY) == 7)
+                        {
+                            Console.WriteLine("Aspirate a jewel");
+                            performance = -1000;
+                        }
+                        else
+                        {
+                            performance += 10;
+                        }
+                        break;
+
+                    case "pickup":
+                        if ( brain.isJewelDirt(state, vacXY) == 5)
+                        {
+                            Console.WriteLine("Pickup dirt");
+                            performance = -100;
+                        }
+                        else
+                        {
+                            performance += 10;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                actors.execute(dq);
             }
             
         }
